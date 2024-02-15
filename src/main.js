@@ -41,7 +41,7 @@ function onFormSubmit(e) {
             message: 'Sorry, there are no images matching <br> your search query. Please try again!',
             messageColor: '#FFFFFF',
             messageSize: '16px',
-            position: 'center',
+            position: 'topRight',
             backgroundColor: '#EF4040',
             progressBarColor: '#B51B1B',
             displayMode: 'replace',
