@@ -3,13 +3,11 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 
-const lightbox = new SimpleLightbox('.gallery a', { scrollZoom: false });
-
 const form = document.querySelector('.form');
 const gallery = document.querySelector('.gallery');
 const loader = document.querySelector('.loader');
 
-form.addEventListener('submit', onFormSubmit);
+// form.addEventListener('submit', onFormSubmit);
 
 function fetchImg(query) {
   const BASE_URL = 'https://pixabay.com/api/?';
@@ -24,18 +22,16 @@ function fetchImg(query) {
 
   return fetch(url).then(response => response.json());
 }
-function onFormSubmit(e) {
+form.addEventListener('submit',  e => {
   e.preventDefault();
-
+  loader.style.display = 'inline-block';
+  gallery.innerHTML = '';
   const query = document.querySelector('input[type="text"]').value.trim();
-
-  if (query !== '') {
-    loader.style.display = 'inline-block';
 
     fetchImg(query)
       .then(data => {
         if (data.hits.length === 0) {
-
+          
           iziToast.show({
             messageAlign: 'center',
             message: 'Sorry, there are no images matching <br> your search query. Please try again!',
@@ -61,7 +57,7 @@ function onFormSubmit(e) {
           form.reset();
         } else {
           gallery.innerHTML = imagesTemplate(data.hits);
-
+          const lightbox = new SimpleLightbox('.gallery a', { scrollZoom: false });
           lightbox.refresh();
         }
       })
@@ -70,7 +66,7 @@ function onFormSubmit(e) {
         loader.style.display = 'none';
       });
   }
-}
+);
 function imagesTemplate(hits) {
   return hits.map(imgTemplate).join('');
 }
